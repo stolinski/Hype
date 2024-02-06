@@ -1,15 +1,24 @@
-# hype_projects
+![Hype Logo](./public/hype.png)
 
-To install dependencies:
+# Hype
 
-```bash
-bun install
+Demo: https://hype.tolin.ski/
+
+Take a look. It's nothing special yet, but it has potential.
+
+## Want to help?
+
+Let's chat https://discord.gg/7eSBjEQMYq
+
+### Code Highlighting
+
+Install: https://marketplace.visualstudio.com/items?itemName=bierner.lit-html
+
+### Emmet
+
 ```
-
-To run:
-
-```bash
-bun run index.ts
+  "emmet.includeLanguages": {
+    "typescript": "html",
+    "javascript": "html"
+  },
 ```
-
-This project was created using `bun init` in bun v1.0.25. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
