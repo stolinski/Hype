@@ -1,0 +1,228 @@
+:root {
+  /* Colors */
+  --tan: #f0e7d5;
+  --black: #1f1f1f;
+  --orange: #e75b2c;
+  --yellow: #e8c951;
+  /* Increase or decrease the number 
+to change the vertical spacing globally*/
+
+  /* Base Vertical Spacing */
+  --space: 1.62;
+
+  /* Vertical Spacing - multiplier */
+  --vspace: calc(var(--space) * 1rem);
+  --vspace-0: calc(3 * var(--space) * 1rem);
+  --vspace-1: calc(2 * var(--space) * 1rem);
+  --vspace-2: calc(1.5 * var(--space) * 1rem);
+  --vspace-3: calc(0.5 * var(--space) * 1rem);
+
+  --bg: var(--tan);
+  --fg: var(--black);
+
+  --tint: oklch(100% 0 0 / 80%);
+  --shade: oklch(0 0 0 / 10%);
+  --deep-shade: oklch(0 0 0 / 70%);
+  --tint-or-shade: color-mix(in oklab, var(--fg), transparent 90%);
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-size: 1em;
+  margin: 0 auto;
+  background: var(--tan);
+  color: var(--black);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+p {
+  line-height: var(--vspace);
+}
+
+h1 {
+  color: var(--deep-shade);
+  margin: var(--vspace-1) 0 var(--vspace-1) 0;
+  line-height: calc(8 / var(--space) * var(--vspace));
+}
+
+h2 {
+  margin: var(--vspace-2) 0 var(--vspace-3) 0;
+  line-height: 1em;
+}
+
+h3 {
+  margin: var(--vspace-1) 0 var(--vspace-3) 0;
+  line-height: 1em;
+}
+
+h4,
+h5,
+h6 {
+  margin: var(--vspace-2) 0 var(--vspace-3) 0;
+  line-height: var(--vspace);
+}
+
+.bigtitle,
+h1 {
+  font-size: 8em;
+  word-break: break-word;
+}
+
+.title,
+h2 {
+  font-size: 3.375em;
+  font-weight: lighter;
+  word-break: break-word;
+}
+
+.subheading1,
+h3 {
+  font-size: 2em;
+  font-weight: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+blockquote {
+  font-size: 1em;
+  font-style: italic;
+  line-height: calc(1 * var(--vspace));
+  margin: var(--vspace-2) var(--vspace-2);
+}
+
+.subheading2,
+h4 {
+  font-size: 1.4167em;
+  text-transform: capitalize;
+}
+
+.subheading3,
+h5 {
+  font-size: 1.2083em;
+  font-weight: lighter;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+.subheading4,
+h6 {
+  font-size: 1em;
+  font-weight: normal;
+  font-style: italic;
+  font-family: "le-monde-livre-classic-byol", serif !important;
+  letter-spacing: 0px !important;
+}
+
+.caption_ts {
+  font-size: 0.7083em;
+  font-weight: normal;
+  font-style: italic;
+}
+
+.endnote_ts {
+  font-size: 0.7083em;
+}
+
+.footnote_ts {
+  margin: var(--vspace-0) 0 var(--vspace-2) 0;
+  font-size: 0.6042em;
+  border-top: 1px solid #ccc;
+  line-height: 2em;
+}
+
+sup {
+  font-size: 0.6042rem;
+  margin: 0.5em;
+  text-transform: none;
+  font-style: italic;
+  font-weight: normal;
+}
+
+input {
+  font-size: 24px;
+  background: transparent;
+  border: solid 2px var(--black);
+  padding: 10px 20px;
+}
+
+button {
+  background: transparent;
+  border-radius: 10px;
+  font-size: 24px;
+  border: solid 2px var(--black);
+  padding: 10px 20px;
+}
+
+button:hover {
+  background: var(--yellow);
+  border-color: var(--yellow);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin: calc(var(--vspace) / 3) 0;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-from-right {
+  from {
+    transform: translateX(90px);
+  }
+}
+
+@keyframes slide-to-left {
+  to {
+    transform: translateX(-90px);
+  }
+}
+
+/* define animations for the old and new content */
+::view-transition-old(slide-it) {
+  animation: 180ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
+    300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-left;
+}
+::view-transition-new(slide-it) {
+  animation: 120ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,
+    300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-right;
+}
+
+/* tie the view transition to a given CSS class */
+.auto-transition {
+  view-transition-name: slide-it;
+}
+
+.pill {
+  font-size: 0.7083em;
+  background: var(--tint-or-shade);
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+
+.box {
+  padding: var(--vspace);
+  border: 2px solid var(--black);
+}
+
+.note {
+  padding: 20px;
+  background-color: var(--tint-or-shade);
+}

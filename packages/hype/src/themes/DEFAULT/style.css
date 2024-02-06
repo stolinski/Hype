@@ -1,0 +1,156 @@
+:root {
+  @custom-media --below-small (width < 400px);
+  @custom-media --below-med (width < 700px);
+  @custom-media --below-large (width < 900px);
+  @custom-media --below-xlarge (width < 1200px);
+
+  @custom-media --above-small (width >400px);
+  @custom-media --above-med (width > 700px);
+  @custom-media --above-large (width > 900px);
+  @custom-media --above-xlarge (width > 1200px);
+
+  --black-hue: none;
+  --blacklch: 0% none var(--black-hue);
+  --black-1: oklch(97% 0 var(--black-hue));
+  --black-2: oklch(90% 0 var(--black-hue));
+  --black-3: oklch(83% 0 var(--black-hue));
+  --black-4: oklch(72% 0 var(--black-hue));
+  --black-5: oklch(67% 0 var(--black-hue));
+  --black-6: oklch(50% 0 var(--black-hue));
+  --black-7: oklch(35% 0 var(--black-hue));
+  --black-8: oklch(23.08% 0 var(--black-hue));
+  --black-9: oklch(13% 0 var(--black-hue));
+  --black-10: oklch(var(--blacklch));
+  --black: var(--black-10);
+  --dark-grey: var(--black-8);
+  --white: oklch(100% none none);
+
+  /* Typography */
+  --body-font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  --heading-font-family: system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+    sans-serif;
+
+  --font-size-xs: clamp(0.6rem, 0.17vw + 0.76rem, 0.7rem);
+  --font-size-sm: clamp(0.8rem, 0.17vw + 0.76rem, 0.89rem);
+  --font-size-base: clamp(1rem, 0.34vw + 0.91rem, 1.19rem);
+  --font-size-md: clamp(1.25rem, 0.61vw + 1.1rem, 1.58rem);
+  --font-size-lg: clamp(1.56rem, 1vw + 1.31rem, 2.11rem);
+  --font-size-xl: clamp(1.95rem, 1.56vw + 1.56rem, 2.81rem);
+  --font-size-xxl: clamp(2.44rem, 2.38vw + 1.85rem, 3rem);
+  --font-size-xxxl: clamp(3.05rem, 3.54vw + 2.17rem, 5rem);
+
+  /* Shadow */
+  --default-padding: 1rem;
+
+  /* THEME COLORS */
+  /* Light Theme as the default */
+  /* Backgrounds */
+
+  --bg: var(--white);
+
+  /* Foreground */
+  --fg: var(--black);
+
+  --border-size: 1.5px;
+  --border: solid var(--border-size) var(--fg-sheet);
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    box-sizing: border-box;
+  }
+
+  *,
+  *::before-,
+  *::after {
+    box-sizing: inherit;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 700;
+    line-height: 1.4;
+    margin-block: 0.2em;
+  }
+
+  h1,
+  .h1 {
+    font-size: var(--font-size-xxxl);
+  }
+  h2,
+  .h2 {
+    font-size: var(--font-size-xxl);
+    /* font-weight: 700; */
+  }
+  h3,
+  .h3 {
+    font-size: var(--font-size-xl);
+    /* font-weight: 700; */
+  }
+  h4,
+  .h4 {
+    font-size: var(--font-size-lg);
+    /* font-weight: 400; */
+  }
+  h5,
+  .h5 {
+    font-size: var(--font-size-md);
+  }
+
+  .h6,
+  h6,
+  p,
+  li {
+    font-size: var(--font-size-base);
+  }
+
+  body {
+    padding: 0;
+    margin: 0;
+    font-family: var(--body-font-family);
+    color: var(--fg);
+    background: var(--bg);
+  }
+
+  a,
+  .a {
+    color: var(--link-fg, var(--fg));
+    text-decoration: none;
+  }
+
+  a:hover {
+    cursor: pointer;
+  }
+
+  :is(p, li) a,
+  .a {
+    color: var(--color-sheet);
+    text-decoration: underline;
+    text-decoration-color: var(--primary);
+    text-decoration-thickness: 1.5px;
+  }
+
+  p {
+    line-height: 1.7;
+  }
+  ul {
+    @media (--below-med) {
+      padding: 0;
+    }
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+}
