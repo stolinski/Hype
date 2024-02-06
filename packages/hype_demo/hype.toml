@@ -1,0 +1,14 @@
+# This file is where you put all of your app's meta data, including things that are used in the default themes.
+# With the express purpose of these being hardcoded and used within the app itself, you can make it easier
+# to change them without having to make changes to the app itself.
+
+APP_NAME = "Hype Demo"
+OG_IMAGE = "" # TODO 
+SITE_DESCRIPTION = "" # TODO
+
+THEME="HYPE"
+
+
+# FUTURE IDEAS
+# DARK_MODE = true
+# AUTO_DARK_MODE_TOGGLE = true

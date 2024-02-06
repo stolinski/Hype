@@ -1,0 +1,17 @@
+{
+  "name": "hype_projects",
+  "version": "0.0.1",
+  "workspaces": [
+    "packages/hype",
+    "packages/hype_demo"
+  ],
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "clean": "rm -rf node_modules packages/hype/node_modules packages/hype_demo/node_modules bun.lockb packages/hype/bun.lockb packages/hype_demo/bun.lockb"
+  }
+}
