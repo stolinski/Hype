@@ -1,4 +1,4 @@
-![Hype Logo](./public/hype.png)
+![Hype Logo](./packages/hype_demo/public/hype.png)
 
 # Hype
 
