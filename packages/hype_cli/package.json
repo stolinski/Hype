@@ -1,0 +1,15 @@
+{
+  "bin": {
+    "get-hype": "./index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "module": "index.ts",
+  "name": "@hype/hype_cli",
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "type": "module",
+  "version": "0.0.1"
+}

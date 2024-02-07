@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "workspaces": [
     "packages/hype",
-    "packages/hype_demo"
+    "packages/hype_demo",
+    "packages/hype_cli"
   ],
   "devDependencies": {
     "@types/bun": "latest"
@@ -13,5 +14,9 @@
   },
   "scripts": {
     "clean": "rm -rf node_modules packages/hype/node_modules packages/hype_demo/node_modules bun.lockb packages/hype/bun.lockb packages/hype_demo/bun.lockb"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.7.0",
+    "kleur": "^4.1.5"
   }
 }
