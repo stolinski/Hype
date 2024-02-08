@@ -10,30 +10,29 @@ import { transform_markdown } from "./utils/transform_markdown";
 type FileType = "md" | "html" | "ts";
 
 type RouterComponent = {
-	file_type: FileType;
-	module: any;
+  file_type: FileType;
+  module: any;
 };
 
 async function get_component(import_url: string): Promise<RouterComponent> {
-	try {
-		const module = await import(import_url);
-		const file_type: FileType = get_file_extension(import_url) as FileType;
+  try {
+    const module = await import(import_url);
+    const file_type: FileType = get_file_extension(import_url) as FileType;
 
-		return {
-			file_type,
-			module,
-		};
-	} catch (e) {
-		console.log(e);
-		throw new Error("Component not found");
-	}
+    return {
+      file_type,
+      module,
+    };
+  } catch (e) {
+    console.log(e);
+    throw new Error("Component not found");
+  }
 }
-
-
+// TODO move to middleware
 const bun_router = new Bun.FileSystemRouter({
-	style: "nextjs",
-	dir: PAGES_ROOT_PATH,
-	fileExtensions: [".ts", ".md", ".html"],
+  style: "nextjs",
+  dir: PAGES_ROOT_PATH,
+  fileExtensions: [".ts", ".md", ".html"],
 });
 
 const routes = route_process_to_array(bun_router.routes);
@@ -41,60 +40,89 @@ export const routes_sig = createSignal(routes);
 
 // TODO: these types will need to get figured out once the api is done.
 export const router = async ({
-	request,
-	theme_root,
-	config,
-	hx,
-	html,
-	body,
-	...rest
+  req,
+  theme_root,
+  config,
+  htmx,
+  html,
+  body,
+  ...rest
 }) => {
-	const httpVerb = request.method.toLowerCase();
+  try {
+    const httpVerb = req.method.toLowerCase();
+    const route_data = {
+      request: req,
+      theme_root,
+      config,
+      htmx,
+      html,
+      body,
+      ...rest,
+    };
 
-	const url = new URL(request.url);
-	const pathname = url.pathname;
-	const path_match = bun_router.match(pathname);
+    const url = new URL(req.url);
+    const pathname = url.pathname;
+    const path_match = bun_router.match(pathname);
 
-	if (path_match) {
-		const import_url = `${PAGES_ROOT_PATH}/${path_match.src}`;
+    if (path_match) {
+      const import_url = `${PAGES_ROOT_PATH}/${path_match.src}`;
+      const { file_type, module } = await get_component(import_url);
 
-		const { file_type, module } = await get_component(import_url);
+      console.log(
+        `${file_type} file loaded from ${import_url} with route: ${pathname}`
+      );
 
-		if (file_type === "md") {
-			const markdown = await Bun.file(import_url).text();
-			const html = transform_markdown(markdown);
-			if (hx.request) {
-				return html;
-			}
-			return theme_root({ children: html, ...rest, routes, config });
-		}
+      if (file_type === "md") {
+        const markdown = await Bun.file(import_url).text();
+        const html_data = transform_markdown(markdown);
 
-		if (file_type === "html") {
-			const html = await Bun.file(import_url).text();
-			if (hx.request) {
-				return html;
-			}
-			return theme_root({ children: html, routes, config });
-		}
+        if (htmx?.request) {
+          return html(html_data);
+        }
+        return html(theme_root({ children: html_data, ...route_data }));
+      }
 
-		if (file_type === "ts") {
-			if (httpVerb === "get") {
-				const page = await module.default({ routes, config });
-				if (hx.request) {
-					return page;
-				}
-				// TODO need to finalize or organize component args
-				const complete_html = await theme_root({
-					children: page,
-					routes,
-					config,
-				});
-				return html(complete_html);
-			}
-			if (httpVerb === "post") {
-				return module?.post({ request, routes, config, body });
-			}
-		}
-	}
-	return "404 - Page not found";
+      if (file_type === "html") {
+        const html_data = await Bun.file(import_url).text();
+        if (htmx?.request) {
+          return html(html_data);
+        }
+        return html(theme_root({ children: html_data, ...route_data }));
+      }
+
+      if (file_type === "ts") {
+        if (httpVerb === "get") {
+          const page = await module.default({ ...route_data });
+          if (htmx?.request) {
+            return html(page);
+          }
+          // TODO need to finalize or organize component args
+          const complete_html = await theme_root({
+            children: page,
+            ...route_data,
+          });
+          return html(complete_html);
+        }
+        if (httpVerb === "post") {
+          return module?.post({ ...route_data });
+        }
+      }
+    }
+  } catch (e) {
+    console.log("e", e);
+    return "404 - Page not found";
+  }
+  return "404 - Page not found";
 };
+
+export async function post_router(c) {
+  const url = new URL(c.req.url);
+  const pathname = url.pathname;
+  const path_match = bun_router.match(pathname);
+  if (path_match) {
+    const import_url = `${PAGES_ROOT_PATH}/${path_match.src}`;
+    const { module } = await get_component(import_url);
+    return c.html(module?.post(c));
+  }
+  return "404 - Page not found";
+}

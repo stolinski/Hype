@@ -4,6 +4,4 @@ export * from "./javascripts";
 export * from "./router";
 import html from "./html";
 
- export {
-	html
-};
+export { html };

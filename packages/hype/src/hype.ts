@@ -1,14 +1,13 @@
-import { html } from "@elysiajs/html";
-import staticPlugin from "@elysiajs/static";
-import { Elysia } from "elysia";
-import { htmx } from "elysia-htmx";
-import { router } from "./router";
+// import { html, raw } from "hono/html";
+import { htmxMiddleware } from "@hype/htmx_hono_middleware";
+import { Hono } from "hono";
+import { post_router, router } from "./router";
 
 type HypeConfig = {
-	APP_NAME: string;
-	OG_IMAGE: string;
-	SITE_DESCRIPTION: string;
-	THEME: string;
+  APP_NAME: string;
+  OG_IMAGE: string;
+  SITE_DESCRIPTION: string;
+  THEME: string;
 };
 
 // Just experimenting with using jsdoc to get docs out of the code.
@@ -20,24 +19,25 @@ type HypeConfig = {
  * @return {void}
  */
 export async function getHype({ config }: { config: HypeConfig }) {
-	// Run on initialization
-	// Grabs all exports for theme.
-	const { default: theme_root } = await import(`./themes/${config.THEME}/html`);
+  // Run on initialization
+  // Grabs all exports for theme.
+  const { default: theme_root } = await import(`./themes/${config.THEME}/html`);
+  const app = new Hono();
+  app.use("*", htmxMiddleware());
+  app.use("*", async (c, next) => {
+    c.theme_root = theme_root;
+    c.config = config;
+    await next();
+  });
+  app.get("*", (c) => {
+    return router(c);
+  });
+  app.post("*", (c) => {
+    return post_router(c);
+  });
 
-	function main() {
-		const app = new Elysia()
-			.use(staticPlugin())
-			.use(htmx())
-			.use(html())
-			.decorate("config", config)
-			.decorate("theme_root", theme_root)
-			.all("/*", router)
-			.listen(4000);
-
-		console.log(
-			`📸 Hype is hyped up and running super fast at http://${app.server?.hostname}:${app.server?.port}`,
-		);
-	}
-
-	main();
+  console.log(
+    `📸 Hype is hyped up and running super fast at http://${app.server?.hostname}:${app.server?.port}`
+  );
+  return app;
 }

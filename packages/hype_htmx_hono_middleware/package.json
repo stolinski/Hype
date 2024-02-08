@@ -1,12 +1,12 @@
 {
-  "bin": {
-    "get-hype": "./index.ts"
+  "dependencies": {
+    "hono": "^3.12.12"
   },
   "devDependencies": {
     "@types/bun": "latest"
   },
   "module": "index.ts",
-  "name": "@hype/hype_cli",
+  "name": "@hype/htmx_hono_middleware",
   "peerDependencies": {
     "typescript": "^5.0.0"
   },

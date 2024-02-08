@@ -1,7 +1,5 @@
 {
   "dependencies": {
-    "@elysiajs/html": "^0.8.0",
-    "@elysiajs/static": "^0.8.1",
     "@libsql/client": "^0.4.2",
     "@preact/signals": "^1.2.2",
     "@types/dompurify": "^3.0.5",
@@ -10,8 +8,7 @@
     "dompurify": "^3.0.8",
     "drizzle-kit": "^0.20.13",
     "drizzle-orm": "^0.29.3",
-    "elysia": "latest",
-    "elysia-htmx": "^1.0.9",
+    "hono": "^3.12.12",
     "jsdom": "^24.0.0",
     "simple-markdown": "1.0.0-alpha.0"
   },
@@ -26,5 +23,5 @@
     "migrate": "bun run ./src/migrate.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "0.0.3"
+  "version": "1.0.0-next.3"
 }
